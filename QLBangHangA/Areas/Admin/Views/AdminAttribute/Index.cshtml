@@ -1,0 +1,59 @@
+﻿@model IEnumerable<QLBangHangA.Models.Entities.ProductAttribute>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item active">Danh sách thông số - trang @ViewBag.CurrentPage</li>
+    </ol>
+</nav>
+
+
+<div class="card">
+    <div class="m-2 d-flex justify-content-end m-3 ">
+        <div class="align-items-center">
+            <a class="btn btn-primary btn-tone  " asp-controller="adminAttribute" asp-action="create">Tạo mới thông số</a>
+        </div>
+    </div>
+    <div class="table-responsive ">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tên thông số</th>
+                    <th scope="col">Mô tả</th>
+                    <th scope="col">#</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>
+                                <p class="mb-1">@item.Name</p>
+                            </td>
+                            <td>
+                                <p class="mb-1">@item.Description</p>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminAttribute" asp-action="details" asp-route-id="@item.Id">View</a>
+                                <a class="btn btn-secondary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminAttribute" asp-action="edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-danger btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminAttribute" asp-action="delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    
+</div>

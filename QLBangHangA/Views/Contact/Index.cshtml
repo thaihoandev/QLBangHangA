@@ -1,0 +1,47 @@
+﻿@model QLBangHangA.Models.Entities.Contact
+
+
+<!-- Contact Section Begin -->
+<section class="contact spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__content">
+                    <div class="contact__address">
+                        <h5>Thông tin liên hệ</h5>
+                        <ul>
+                            <li>
+                                <h6><i class="fa fa-map-marker"></i> Địa chỉ</h6>
+                                <p>22A/6 Thống Nhất, Đông Hòa, Dĩ An, Bình Dương</p>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-phone"></i> Số điện thoại</h6>
+                                <p><span>(+84) 916 491 863</span></p>
+                            </li>
+                            <li>
+                                <h6><i class="fa fa-headphones"></i> Hỗ trợ</h6>
+                                <p>hoanthai1103@gmail.com</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="contact__form">
+                        <h5>GỬI LỜI NHẮN</h5>
+                        <form asp-controller="contact" asp-action="submitMessage">
+                            <input asp-for="ContactName" type="text" placeholder="Tên">
+                            <input asp-for="Mail" type="text" placeholder="Email">
+                            <input asp-for="Phone" type="text" placeholder="Số điện thoại">
+                            <textarea asp-for="Message" placeholder="Lời nhắn"></textarea>
+                            <button type="submit" class="site-btn">Gửi lời nhắn</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.92613984764!2d106.7890741758393!3d10.893217857027016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8eac6450f81%3A0x1a84350395de0340!2zMjJBLzYgxJAuIFRo4buRbmcgTmjhuqV0LCDEkMO0bmcgSG_DoCwgRMSpIEFuLCBCw6xuaCBExrDGoW5nIDc1MzAwLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1712299315047!5m2!1svi!2s" width="500" height="780" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->

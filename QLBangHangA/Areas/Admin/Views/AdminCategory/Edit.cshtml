@@ -1,0 +1,135 @@
+﻿@model QLBangHangA.Models.Entities.Category
+
+@{
+    ViewData["Title"] = "Chỉnh sửa danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">Danh sách danh mục</a></li>
+        <li class="breadcrumb-item active">Chỉnh sửa danh mục</li>
+    </ol>
+</nav>
+
+
+<div class="card mb-2">
+    <div class="d-flex align-items-center justify-content-between ">
+        <div class="d-flex align-items-center">
+            <img class="object-fit-cover border rounded" src="~/images/categories/@Model.Thumb" width="80" height="90" />
+            <h5 class=" m-4"><strong>@Model.CatName</strong> </h5>
+        </div>
+
+    </div>
+</div>
+<div class="card mb-5">
+    <form asp-action="Edit" method="post" asp-controller="AdminCategory" asp-area="Admin" asp-route-id="@Model.CatId" enctype="multipart/form-data" class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+        <div>
+            <input type="hidden" asp-for="CatId" />
+            <input type="hidden" asp-for="Thumb" />
+            <div class="form-group row">
+                <h5 class="m-0">Thông tin danh mục </h5>
+                <div class="form-group mt-3 col-sm-12 ">
+                    <label class="col-form-label">Tên danh mục:</label>
+                    <div class="">
+                        <input type="text" class="form-control" asp-for="CatName" placeholder="Tên danh mục" />
+                        <span asp-validation-for="Title" asp-format="Vui lòng nhập tên danh mục!" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3 mr-sm-2 ml-sm-2  col-sm-6">
+                    <label class="col-form-label">Trạng thái:</label>
+                    <div class="row m-1 mt-0 mb-0">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" asp-for="Published" />
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Công khai</label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group mt-3 col-sm-6 ">
+                    <label class="col-form-label">Parent ID:</label>
+                    <div class="">
+                        <input type="text" class="form-control" asp-for="ParentId" placeholder="ParentId" />
+                        <span asp-validation-for="Title" asp-format="Vui lòng nhập tên ParentId!" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group mt-3 col-sm-6 ">
+                    <label class="col-form-label">Level:</label>
+                    <div class="">
+                        <input type="text" class="form-control" asp-for="Levels" placeholder="Levels" />
+                        <span asp-validation-for="Title" asp-format="Vui lòng nhập Levels!" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group mt-3 col-sm-6 ">
+                    <label class="col-form-label">Ordering:</label>
+                    <div class="">
+                        <input type="text" class="form-control" asp-for="Ordering" placeholder="Ordering" />
+                        <span asp-validation-for="Title" asp-format="Vui lòng nhập Ordering!" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group mt-3  col-sm-12">
+                    <label class="col-form-label">Ảnh danh mục:</label>
+                    <div class="">
+                        <input type="file" name="fThumb" class="form-control-file" asp-for="Thumb" />
+
+                    </div>
+                </div>
+                <div class="form-group mt-2 row">
+                    <div class="form-group mb-3 col-sm-12 ">
+                        <label for="exampleFormControlTextarea1" class="form-label">
+                            Nội dung:
+                        </label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" asp-for="CatDesc"></textarea>
+
+                        <span asp-validation-for="CatDesc" class="text-danger"></span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-5 row">
+                
+                <h5 class="m-0">Thông tin CEO</h5>
+                <div class="form-group mt-3 col-sm-12 ">
+                    <label class="col-form-label">Tiêu đề:</label>
+                    <div class="">
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Tiêu đề" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="form-group mt-1 col-sm-6 ">
+                    <label class="col-form-label">MetaDesc:</label>
+                    <div class="">
+                        <input type="text" class="form-control" asp-for="MetaDesc" placeholder="MetaDesc" />
+                        <span asp-validation-for="MetaDesc" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="form-group mt-1  col-sm-6 ">
+                    <label class=" col-form-label">MetaKey</label>
+                    <div class="">
+                        <input type="text" class="form-control" asp-for="MetaKey" placeholder="MetaKey" />
+                        <span asp-validation-for="MetaKey" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10 mt-4">
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                <a asp-controller="AdminCategory" asp-action="Index" class="btn btn-secondary">Quay lại</a>
+
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,73 @@
+﻿@using PagedList.Core.Mvc;
+@using QLBangHangA.Models.Entities;
+@model PagedList.Core.IPagedList<Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Danh sách đơn chờ - trang @ViewBag.CurrentPage</li>
+    </ol>
+</nav>
+
+
+<div class="card">
+    <div class="table-responsive ">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Ngày đặt</th>
+                    <th scope="col">Người đặt</th>
+                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Tổng tiền</th>
+                    <th scope="col">#</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.OrderId</td>
+                            <td>
+                                @item.OrderDate
+                            </td>
+                            <td>
+                                <p class="mb-1">@item.UserId</p>
+                            </td>
+                            <td>
+                                <p class="mb-1">@item.ShippingAddress</p>
+                            </td>
+                            <td>
+                                @item.TotalPrice
+
+                            </td>
+
+                            <td>
+                                <form asp-area="admin" asp-controller="adminOrder" asp-action="confirmed" method="post" asp-route-orderId="@item.OrderId">
+                                    <button type="submit" class="btn btn-primary btn-tone m-r-3 p-2">Confirm</button>
+                                </form>
+                                <a class="btn btn-secondary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminOrder" asp-action="details" asp-route-id="@item.OrderId">View</a>
+                                <a class="btn btn-danger btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminOrder" asp-action="delete" asp-route-id="@item.OrderId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <nav class="m-3 mb-0" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <pager class="pager-container" list="@Model" asp-area="admin" asp-controller="adminOrder" asp-action="Index"></pager>
+        </ul>
+    </nav>
+</div>

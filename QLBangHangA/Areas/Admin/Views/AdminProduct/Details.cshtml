@@ -1,0 +1,180 @@
+﻿    @model QLBangHangA.Models.Entities.Product
+
+@{
+    ViewData["Title"] = "Thông tin sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+            <a asp-area="admin" asp-controller="home" asp-action="Index">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item"><a asp-area="admin" asp-controller="adminProduct" asp-action="Index">Danh sách sản phẩm</a></li>
+        <li class="breadcrumb-item active">Thông tin sản phẩm : @Model.ProductName</li>
+    </ol>
+</nav>
+
+<div class="card mb-2">
+    <div class="d-flex align-items-center justify-content-between ">
+        <div class="d-flex align-items-center">
+            <img class=" border rounded" style="object-fit:cover" src="~/images/products/@Model.Thumb" width="120" height="90" />
+            <h5 class=" m-4"><strong>@Model.ProductName</strong> </h5>
+        </div>
+
+        <a class="btn btn-primary m-4 " asp-route-id="@Model.ProductId" asp-area="admin" asp-controller="adminProduct" asp-action="Edit">Chỉnh sửa</a>
+    </div>
+</div>
+<div class="card mb-5">
+    <form asp-action="Create" method="post" asp-controller="adminProduct" asp-area="admin" asp-route-id="@Model.ProductId" enctype="multipart/form-data" class="card-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
+        <div>
+            <div class="form-group row">
+                <div class="form-group mt-3 col-sm-12 ">
+                    <label class="col-form-label">Tên sản phẩm:</label>
+                    <div class="">
+                        <input type="text" class="form-control" disabled asp-for="ProductName" />
+                        
+                    </div>
+                </div>
+
+               
+                <div class="form-group mt-3  col-sm-6">
+                    <label class="col-form-label">Giá giảm:</label>
+                    <div class="">
+                        <input type="text" class="form-control" disabled asp-for="Discount" />
+                        <span asp-validation-for="Discount" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="form-group mt-3 mr-sm-2 ml-sm-2  col-sm-6">
+                    <label class="col-form-label">Trạng thái:</label>
+                    <div class="row m-1 mt-0 mb-0">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" disabled type="checkbox" asp-for="Active" checked="" />
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Công khai</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" disabled type="checkbox" asp-for="HomeFlag" />
+                            <label class="form-check-label" for="flexSwitchCheckDefault">HomeFlag</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" disabled type="checkbox" asp-for="BestSellers" />
+                            <label class="form-check-label" for="flexSwitchCheckDefault">BestSellers</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-1 col-sm-6 ">
+                    <label class="col-form-label">Ngày tạo:</label>
+                    <div class="">
+                        <input type="text" class="form-control" disabled asp-for="DateCreated" />
+                    </div>
+                </div>
+                <div class="form-group mt-1 col-sm-6 ">
+                    <label class="col-form-label">Ngày cập nhật:</label>
+                    <div class="">
+                        <input type="text" class="form-control" disabled asp-for="DateModified" />
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group mt-1 row">
+                <div class="form-group mt-1 col-sm-12 ">
+                    <label class="col-form-label">Tiêu đề:</label>
+                    <div class="">
+                        <input type="text" class="form-control" disabled asp-for="Title"  />
+                       
+
+                    </div>
+                </div>
+
+                <div class="form-group mt-3  col-sm-12 ">
+                    <label for="exampleFormControlTextarea1" class="form-label">Mô tả</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" disabled asp-for="Description" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group mt-5 row">
+
+                <div class="card">
+                    <div class="m-2 d-flex align-item-center">
+                        <div class="align-items-center m-2">
+                            <a class="btn btn-primary btn-tone" asp-area="admin" asp-controller="adminProductVariant" asp-action="create" asp-route-productId="@Model.ProductId">Tạo mới sản phẩm</a>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive ">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Color</th>
+
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Status</th>
+                                    <td scope="col">#</td>
+
+                                </tr>
+                            </thead>
+                            <tbody id="records_table">
+                                @if (Model != null)
+                                {
+                                    foreach (var item in ViewBag.ItemList)
+                                    {
+                                        <tr>
+                                            <td>@item.ProductId</td>
+                                            <td>
+                                                <p class="mb-1">@item.ColorId</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-1">@item.SizeId</p>
+                                            </td>
+                                            <td>
+                                                @item.Quantity
+                                            </td>
+                                            <td>  
+                                                @if (item.Quantity != null)
+                                                {
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="text-success">In Stock</div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="text-success">Out Stock</div>
+                                                    </div>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                <a class="btn btn-primary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Details" asp-route-id="@item.ProductId"> View</a>
+                                                <a class="btn btn-secondary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
+                                                <a class="btn btn-danger btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    @* <nav class="m-3 mb-0" aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <pager class="pager-container" list="@Model" asp-area="admin" asp-controller="adminProduct" asp-route-catID="@ViewBag.CurrentCatID" asp-action="Index"></pager>
+                        </ul>
+                    </nav> *@
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="form-group row">
+        <div class="col-sm-10 m-4">
+            <a class="btn btn-primary" asp-controller="adminProduct" asp-action="Index">Quay lại</a>
+        </div>
+    </div>
+</div>

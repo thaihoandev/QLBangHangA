@@ -1,0 +1,281 @@
+﻿@model QLBangHangA.Models.Entities.Product
+
+@{
+    ViewData["Title"] = "Detail";
+    int numOfQuantity = 1;
+}
+
+@section Styles{
+    <style>
+        .product__details__widget ul li .size__btn label.active {
+            color: #fff;
+            background-color: #ca1515;
+        }
+
+        .product__details__widget ul li .color__checkbox label .checkmark:after {
+            position: absolute;
+            left: 1px;
+            top: -2px;
+            width: 20px;
+            height: 12px;
+            border: 2px solid #343a40;
+            border-width: 2.5px 2.5px 0px 0px;
+            -webkit-transform: rotate(127deg);
+            -ms-transform: rotate(127deg);
+            transform: rotate(127deg);
+            opacity: 0;
+            content: "";
+        }
+
+        .product__details__widget ul li .color__checkbox label input:checked ~ .checkmark:after {
+            border-color: #8a939c;
+            opacity: 1;
+        }
+    </style>
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+            <a asp-area="" asp-controller="home" asp-action="Index">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-area="" asp-controller="shop" asp-action="Index">Cửa hàng</a>
+        </li>
+        <li class="breadcrumb-item active"><b>@Model.ProductName</b> </li>
+    </ol>
+</nav>
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__left product__thumb nice-scroll">
+                        <a class="pt active" href="#product-1">
+                            <img src="~/images/products/@Model.Thumb" alt="">
+                        </a>
+                        @if (ViewBag.Images != null)
+                        {
+                            @for (int i = 0; i < ViewBag.Images.Count; i++)
+                            {
+                                <a class="pt" href="#product-@(i+2)">
+                                    <img src="~/images/products/@ViewBag.Images[i].Url" alt="">
+                                </a>
+                            }
+                        }
+
+                    </div>
+                    <div class="product__details__slider__content">
+                        <div class="product__details__pic__slider owl-carousel">
+                            <img data-hash="product-1" class="product__big__img" src="~/images/products/@Model.Thumb" alt="">
+                            @if (ViewBag.Images != null)
+                            {
+                                @for (int i = 0; i < @ViewBag.Images.Count; i++)
+                                {
+                                    <a class="pt" href="#product-@(i+2)">
+                                        <img style="object-fit:contain" data-hash="product-@(i + 2)" class="product__big__img" src="~/images/products/@ViewBag.Images[i].Url" alt="">
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                    <div class="product__details__text">
+                        <h3>@Model.ProductName</h3>
+                        @if (ViewBag.Category != null)
+                        {
+                            <span>Brand:  @ViewBag.Category</span>
+                        }
+
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <span>( 138 reviews )</span>
+                        </div>
+                        <div class="product__details__price">$ @Model.Price <span> </span></div>
+                        <p>
+                            @Model.Description
+                        </p>
+                    <form asp-controller="shoppingCart" asp-action="addToCart" asp-route-productId="@Model.ProductId">
+                            <div class="product__details__button">
+                                <div class="quantity">
+                                    <span>Số lượng:</span>
+                                    <div class="pro-qty">
+                                        <input type="text" value="1" name="quantity" >
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ</button>
+                            </div>
+                            <div class="product__details__widget">
+                                <ul>
+                                    <li>
+                                        <span>Màu sắc:</span>
+                                        <div class="color__checkbox">
+                                            @if (Model.ProductVariants != null)
+                                            {
+                                                <div class="form-group mt-3  col-sm-6">
+
+                                                    <div>
+                                                    <select style="padding:6px 0" id="colorSelect" class="form-select  color-dropdown" name="colorId" asp-items="ViewBag.BangMau">
+                                                            <option disabled>Chọn màu</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Số đo:</span>
+                                        <div class="size__btn">
+                                            @if (Model.ProductVariants != null)
+                                            {
+                                            <div id="sizeSelect" class="form-group mt-3  col-sm-6">
+                                                    <div>
+                                                        <select  style="padding:6px 0" class="form-select  color-dropdown" name="sizeId" asp-items="ViewBag.BangSize">
+                                                            <option disabled>Chọn size</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </li>
+                                <li>
+                                    <span>Có sẵn:</span>
+                                    <p>
+                                        <b>
+                                            @if (ViewBag.ListProductVariant != null)
+                                            {
+                                                int totalQuantity = 0;
+                                                @foreach (var itemSub in ViewBag.ListProductVariant)
+                                                {
+                                                    @if (itemSub.ProductId == Model.ProductId)
+                                                    {
+                                                        totalQuantity += itemSub.Quantity;
+                                                    }
+                                                }
+                                                @totalQuantity
+                                            }
+                                        </b>
+                                        sản phẩm
+                                    </p>
+                                </li>
+                                    <li>
+                                        <span>Khuyến mãi:</span>
+                                        <p>Miễn phí vận chuyển</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+              
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Mô tả</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Thông số</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <h6>Mô tả</h6>
+                            <p>
+                                @Model.Description
+                            </p>
+                            <p>
+                                
+                            </p>
+                        </div>
+                        <div class="tab-pane" id="tabs-2" role="tabpanel">
+                            <h6>Thông số</h6>
+                            <p>
+                                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
+                                quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
+                                Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
+                                voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
+                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
+                                consequat massa quis enim.
+                            </p>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
+                                dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
+                                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
+                                quis, sem.
+                            </p>
+                        </div>
+                        <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            <h6>Reviews ( 2 )</h6>
+                            <p>
+                                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
+                                quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
+                                Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
+                                voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
+                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
+                                consequat massa quis enim.
+                            </p>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
+                                dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
+                                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
+                                quis, sem.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="related__title">
+                    <h5>SẢN PHẨM LIÊN QUAN</h5>
+                </div>
+            </div>
+            @foreach (var item in ViewBag.SameProduct)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="product__item">
+                        <div class="product__item__pic set-bg rounded" data-setbg="../../images/products/@item.Thumb">
+                            @if (item.HomeFlag == true)
+                            {
+                                <div class="label new">New</div>
+                            }
+                        <ul class="product__hover">
+                                <li><a href="~/images/products/@item.Thumb" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a asp-controller="shop" asp-action="detail" asp-route-id="@item.ProductId"><span class="icon_bag_alt"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                            <h6><a asp-controller="shop" asp-action="detail" asp-route-id="@item.ProductId">@item.ProductName</a></h6>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div class="product__price">$ @item.Price</div>
+                    </div>
+                </div>
+            </div>
+                
+            }
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+
+@section Scripts{
+   
+}

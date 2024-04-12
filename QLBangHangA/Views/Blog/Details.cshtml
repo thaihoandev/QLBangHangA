@@ -1,0 +1,114 @@
+﻿@using QLBangHangA.Data_Access;
+@using QLBangHangA.Models.Entities;
+@model QLBangHangA.Models.Entities.News
+
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string url = $"/blog/{Model.Alias}--{Model.PostId}.html";
+
+}
+
+<!-- Blog Details Section Begin -->
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-5 order-md-1 order-2">
+                <div class="blog__sidebar">
+                    <div class="blog__sidebar__item">
+                        <h4><b>Bài viết gần đây</b></h4>
+                        <div class="blog__sidebar__recent">
+                            @foreach (var item in ViewBag.News5)
+                            {
+                                string urlItem = $"/blog/{item.Alias}--{item.PostId}.html";
+                                if (urlItem != url)
+                                {
+                                    <a href="@urlItem" class="blog__sidebar__recent__item ">
+                                        <div class="blog__sidebar__recent__item__pic">
+                                            <img style="width:70px; height:70px; object-fit:cover ;" src="~/images/news/@item.Thumb" alt="@item.Title">
+                                        </div>
+                                        <div class="blog__sidebar__recent__item__text d-flex flex-column justify-content-between ">
+                                            <h6 class="">@item.Title</h6>
+                                            <span>@item.CreateDate.Value.ToShortDateString()</span>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7 order-md-1 order-1">
+                <h2 class="mb-2"><b>@Model.Title</b></h2>
+                <div class="blog__details__text">
+                    <img height="400" width="1000" style="object-fit:cover" src="~/images/blogs/@Model.Thumb" alt="">
+                    <div class="mt-3">
+                        <p>
+                            @Html.Raw(Model.Contents)
+                        </p>
+                        <p>
+                            @Html.Raw(Model.Scontents)
+                        </p>
+                    </div>
+                </div>
+                <div class="blog__details__content">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="blog__details__author p-4" style="float:left">
+                                <div class="blog__details__author__pic">
+                                    <img style="object-fit:cover" src="~/assets/img/admin/admin_TH.jpg" alt="">
+                                </div>
+                                <div class="blog__details__author__text">
+                                    <h6>Người viết: <b>@Model.Author</b></h6>
+                                    <span>Ngày đăng: <b>@Model.CreateDate.Value.ToShortDateString()</b></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->
+<!-- Related Blog Section Begin -->
+<section class="related-blog spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title related-blog-title">
+                    <h2><b>Bài viết có thể bạn thích</b></h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in ViewBag.News4)
+            {
+                string urlItem = $"/blog/{item.Alias}--{item.PostId}.html";
+                if (urlItem != url)
+                {
+                    <div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="blog__item">
+                            <div class="blog__item__pic">
+                                <img style="height:240px; object-fit:cover" src="~/images/news/@item.Thumb" alt="">
+                            </div>
+                            <div class="blog__item__text">
+                                <ul>
+                                    <li><i class="fa fa-calendar-o"></i>@item.CreateDate.Value.ToShortDateString()</li>
+                                    <li><i class="fa fa-comment-o"></i>@item.PostId</li>
+                                </ul>
+                                <h5><a href="@urlItem">@item.Title</a></h5>
+                                <p style="height:80px; overflow:hidden; text-overflow:ellipsis; ">@item.Scontents </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</section>
+<!-- Related Blog Section End -->
+@section Scripts{
+   
+}

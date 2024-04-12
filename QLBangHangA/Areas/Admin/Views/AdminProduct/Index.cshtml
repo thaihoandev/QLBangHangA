@@ -1,0 +1,198 @@
+﻿@using PagedList.Core.Mvc;
+@using QLBangHangA.Models.Entities;
+@model PagedList.Core.IPagedList<Product>
+
+@{
+    int currentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách sản phẩm ";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+            <a asp-area="admin" asp-controller="home" asp-action="index">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item active">Danh sách sản phẩm : trang @currentPage</li>
+    </ol>
+</nav>
+
+
+<div class="card">
+    <div class="m-2 d-flex align-item-center">
+        <div style="width:300px" class=" m-0 p-2">
+            <input class="form-control " id="keyword" name="keyword" type="search" placeholder="Tìm kiếm sản phẩm" arial-label="Search" />
+        </div>
+        <div class="card-body m-0 p-2">
+            <div class="row gx-3 gy-2 align-items-center">
+                <div class="col-md-3">
+                    <select id="txtCatID" name="txtCatID" class="form-select color-dropdown" asp-items="ViewBag.DanhMuc">
+                        <option disabled selected>Chọn danh mục</option>
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        <div class="align-items-center m-2">
+            <a class="btn btn-primary btn-tone" asp-area="admin" asp-controller="adminProduct" asp-action="create">Tạo mới sản phẩm</a>
+        </div>
+    </div>
+
+    <div class="table-responsive ">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Thumb</th>
+                    <th scope="col">ProductName</th>
+                    <th scope="col">Catogory</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Status</th>
+
+
+                    <td scope="col">#</td>
+
+                </tr>
+            </thead>
+            <tbody id="records_table">
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ProductId</td>
+                            <td>
+                                <img src="~/images/products/@item.Thumb" width="80vh" height="70vh" class="rounded" style="object-fit:cover" />
+                            </td>
+                            <td>
+                                <p class="mb-1">@item.ProductName</p>
+                            </td>
+                            @if (item.Category != null)
+                            {
+
+                                <td>@item.Category.CatName</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+
+                            <td>@item.Price</td>
+
+                            <td>
+                                @if (ViewBag.ListProductVariant != null)
+                                {
+                                    int totalQuantity = 0;
+                                    @foreach (var itemSub in ViewBag.ListProductVariant){
+                                        @if(itemSub.ProductId == item.ProductId)
+                                        {
+                                            totalQuantity += itemSub.Quantity;
+                                        }
+                                    }
+                                    @totalQuantity
+                                }
+                            </td>
+
+                            <td>
+                                @if (item.ProductVariants != null)
+                                {
+                                    int ? stock = 0;
+                                    @foreach(var itemSub  in item.ProductVariants)
+                                    {
+                                        item.UnitslnStock += itemSub.Quantity;
+                                        stock = item.UnitslnStock;
+                                    }
+                                    @if (stock != null)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="text-success">In Stock</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="text-success">Out Stock</div>
+                                        </div>
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="text-danger">Out Stock</div>
+                                    </div>
+                                }
+                            </td>
+
+                            <td>
+                                <a class="btn btn-primary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Details" asp-route-id="@item.ProductId"> View</a>
+                                <a class="btn btn-secondary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
+                                <a class="btn btn-danger btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <nav class="m-3 mb-0" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <pager class="pager-container" list="@Model" asp-area="admin" asp-controller="adminProduct" asp-route-catID="@ViewBag.CurrentCatID" asp-action="Index"></pager>
+        </ul>
+    </nav>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            jQuery("#txtCatID").change(function () {
+                var catID = jQuery(this).children(":selected").attr("value");
+                catID = parseFloat(catID);
+                $("#txtCatID option").removeAttr('selected');
+                $("#txtCatID > [value=" + catID + "]").attr("selected", "true");
+
+                $.ajax({
+                    url: '/admin/adminProduct/filter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        CatID: catID
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                })
+            })
+
+            $("#keyword").keyup(function () {
+                var strkeyword = $('#keyword').val();
+                $.ajax({
+                    url: '/admin/search/findResult/',
+                    datatype: "json",
+                    type: "POST",
+                    data: { keyword: strkeyword },
+                    async: true,
+                    success: function (results) {
+                        $('#loader').hide();
+                        $("#records_table").html("");
+                        $("#records_table").html(results);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                })
+            })
+        })
+    </script>
+}

@@ -1,0 +1,32 @@
+﻿@using QLBangHangA.Models.Entities;
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h2>Product List</h2>
+
+<div class="container">
+    <div class="row">
+        
+            @foreach (var product in Model)
+            {
+                <div class="col-sm-12 col-md-3 col-lg-3 col-3">
+                    <div class="card" style="width: 18rem;  margin-top: 40px;">
+                        <img src="@product.Thumb" class="card-img-top" alt="..." style="height:22vh">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.ProductName</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text"></p>
+
+                            <a asp-action="Display" asp-route-id="@product.ProductId" asp-controller="Product" class="btn btn-primary">Buy</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+   
+   
+</div>
+
+

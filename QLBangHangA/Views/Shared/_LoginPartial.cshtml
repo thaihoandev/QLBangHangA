@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using QLBangHangA.Models.Entities;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), SD.Role_Admin))
+    {
+            <a class="" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
+    }
+    <a id="manage" class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        <a id="logout" type="submit" class=" btn btn-link " asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Đăng xuất</a>
+}
+else
+{
+    <a class="" id="register" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
+    
+    
+    <a class="" id="login" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+   
+}
+

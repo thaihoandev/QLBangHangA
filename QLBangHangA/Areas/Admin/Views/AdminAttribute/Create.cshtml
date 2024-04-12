@@ -1,0 +1,42 @@
+﻿@model QLBangHangA.Models.Entities.ProductAttribute
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+            <a asp-area="Admin" asp-controller="home" asp-action="Index">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item "><a asp-area="Admin" asp-controller="adminAttribute" asp-action="Index">Danh sách thông số</a> </li>
+        <li class="breadcrumb-item active">Thêm thông số</li>
+
+    </ol>
+</nav>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="create" asp-controller="adminAttribute">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,51 @@
+﻿@model List<QLBangHangA.Models.Entities.Product>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ProductId</td>
+            <td>
+                <img src="~/images/products/@item.Thumb" width="80vh" height="70vh" class="rounded" style="object-fit:cover" />
+            </td>
+            <td>
+                <p class="mb-1">@item.ProductName</p>
+            </td>
+            @if (item.Category != null)
+            {
+                <td>@item.Category.CatName</td>
+            }
+            else
+            {
+                <td>N/A</td>
+            }
+
+            <td></td>
+
+            <td>@item.UnitslnStock</td>
+
+            <td>
+                @if (item.UnitslnStock > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="text-success">In Stock</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="text-secondary">Out Stock</div>
+                    </div>
+                }
+            </td>
+
+            <td>
+                <a class="btn btn-primary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Details" asp-route-id="@item.ProductId"> View</a>
+                <a class="btn btn-secondary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Edit" asp-route-id="@item.ProductId">Edit</a>
+                <a class="btn btn-danger btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminProduct" asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+            </td>
+        </tr>
+    }
+}
+
