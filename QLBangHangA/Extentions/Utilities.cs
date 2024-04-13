@@ -162,5 +162,10 @@ namespace QLBangHangA.Extentions
                 return null;
             }
         }
+
+        public static string FormMail(string htmlEncoder)
+        {
+            var form = $" {htmlEncoder}";
+        }
     }
 }

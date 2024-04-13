@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using QLBangHangA.Extentions;
 using QLBangHangA.Models;
 using QLBangHangA.Models.Entities;
 
@@ -33,15 +34,16 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger
+            
+            )
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -49,7 +51,7 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            
         }
 
         /// <summary>
@@ -169,9 +171,8 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    var emailBody = $"Please confirm your account by <a href='{callbackUrl}'>click here</a>.";
+                    SendMail.SendEmail(Input.Email, "Confirm your email",emailBody,true);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

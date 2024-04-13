@@ -53,7 +53,7 @@ namespace QLBangHangA.Controllers
                     ColorId = colorProValue
 
                 };
-                cart.AddItem(cartItem);
+                cart.AddItem(cartItem, colorId,sizeId);
                 
             } 
             else
