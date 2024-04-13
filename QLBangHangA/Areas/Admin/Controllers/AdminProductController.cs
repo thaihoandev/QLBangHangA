@@ -228,6 +228,7 @@ namespace QLBangHangA.Areas.Admin.Controllers
             ViewData["BangMau"] = new SelectList(_context.ProductVariantValues.Where(x => x.ProductAttribute.Name.ToLower() == "color"), "Id", "Value");
             ViewData["BangSize"] = new SelectList(_context.ProductVariantValues.Where(x => x.ProductAttribute.Name.ToLower() == "size"), "Id", "Value");
 
+            ViewBag.VariantValues = _context.ProductVariantValues.ToList();
             ViewBag.ItemList = _context.ProductVariants.Where(x=>x.ProductId == id).ToList();
 
             if (product == null)

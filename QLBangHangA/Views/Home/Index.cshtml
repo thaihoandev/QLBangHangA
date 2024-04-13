@@ -147,22 +147,24 @@
                     </div>
                     @foreach (var item in ViewBag.ProductBestSellers)
                     {
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img class="rounded" style="width:10vh; height:10vh" src="~/images/products/@item.Thumb" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>@item.ProductName</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                        <a asp-controller="shop" asp-action="detail" asp-route-id="@item.ProductId">
+                            <div class="trend__item">
+                                <div class="trend__item__pic">
+                                    <img class="rounded" style="width:10vh; height:10vh" src="~/images/products/@item.Thumb" alt="">
                                 </div>
-                                <div class="product__price">$ @item.Price</div>
+                                <div class="trend__item__text">
+                                    <h6>@item.ProductName</h6>
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product__price">$ @item.Price</div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     }
                 </div>
             </div>
@@ -173,22 +175,25 @@
                     </div>
                     @foreach (var item in ViewBag.ProductHomeFlag)
                     {
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img class="rounded" style="width:10vh; height:10vh" src="~/images/products/@item.Thumb" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>@item.ProductName</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                        <a asp-controller="shop" asp-action="detail" asp-route-id="@item.ProductId">
+                            <div class="trend__item">
+                                <div class="trend__item__pic">
+                                    <img class="rounded" style="width:10vh; height:10vh" src="~/images/products/@item.Thumb" alt="">
                                 </div>
-                                <div class="product__price">$ @item.Price</div>
+                                <div class="trend__item__text">
+                                    <h6>@item.ProductName</h6>
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product__price">$ @item.Price</div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
+                        
                     }
                 </div>
             </div>
@@ -199,22 +204,24 @@
                     </div>
                     @foreach (var item in ViewBag.ProductActive)
                     {
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img class="rounded" style="width:10vh; height:10vh" src="~/images/products/@item.Thumb" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>@item.ProductName</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                        <a asp-controller="shop" asp-action="detail" asp-route-id="@item.ProductId">
+                            <div class="trend__item">
+                                <div class="trend__item__pic">
+                                    <img class="rounded" style="width:10vh; height:10vh" src="~/images/products/@item.Thumb" alt="">
                                 </div>
-                                <div class="product__price">$ @item.Price</div>
+                                <div class="trend__item__text">
+                                    <h6>@item.ProductName</h6>
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product__price">$ @item.Price</div>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     }
                 </div>
             </div>

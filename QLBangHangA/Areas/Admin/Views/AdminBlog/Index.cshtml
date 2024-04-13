@@ -52,8 +52,8 @@
                             </td>
                             
                             <td>
-                                
-                                <a class="btn btn-secondary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminBlog" asp-action="details" asp-route-id="@item.PostId">View</a>
+
+                                <a class="btn btn-secondary btn-tone m-r-3 p-2" href="/blog/@(item.Alias)--@(item.PostId).html">View</a>
                                 <a class="btn btn-danger btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminBlog" asp-action="delete" asp-route-id="@item.PostId">Delete</a>
                             </td>
                         </tr>

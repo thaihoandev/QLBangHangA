@@ -38,7 +38,7 @@
                         <tr>
                             <td>@item.OrderId</td>
                             <td>
-                                @item.OrderDate
+                                @item.OrderDate.Value.ToShortDateString()
                             </td>
                             <td>
                                 <p class="mb-1">@item.UserId</p>

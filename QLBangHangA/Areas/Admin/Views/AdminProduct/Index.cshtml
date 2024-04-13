@@ -96,15 +96,17 @@
                             </td>
 
                             <td>
-                                @if (item.ProductVariants != null)
+                                @if (ViewBag.ListProductVariant != null)
                                 {
-                                    int ? stock = 0;
-                                    @foreach(var itemSub  in item.ProductVariants)
+                                    int totalQuantity = 0;
+                                    @foreach (var itemSub in ViewBag.ListProductVariant)
                                     {
-                                        item.UnitslnStock += itemSub.Quantity;
-                                        stock = item.UnitslnStock;
+                                        @if (itemSub.ProductId == item.ProductId)
+                                        {
+                                            totalQuantity += itemSub.Quantity;
+                                        }
                                     }
-                                    @if (stock != null)
+                                    @if(totalQuantity > 0)
                                     {
                                         <div class="d-flex align-items-center">
                                             <div class="text-success">In Stock</div>
@@ -113,17 +115,9 @@
                                     else
                                     {
                                         <div class="d-flex align-items-center">
-                                            <div class="text-success">Out Stock</div>
+                                            <div class="text-dark" >Out Stock</div>
                                         </div>
                                     }
-
-
-                                }
-                                else
-                                {
-                                    <div class="d-flex align-items-center">
-                                        <div class="text-danger">Out Stock</div>
-                                    </div>
                                 }
                             </td>
 

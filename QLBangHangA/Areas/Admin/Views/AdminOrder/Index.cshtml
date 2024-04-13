@@ -38,10 +38,19 @@
                         <tr>
                             <td>@item.OrderId</td>
                             <td>
-                                @item.OrderDate
+                                @item.OrderDate.Value.ToShortDateString()
                             </td>
                             <td>
-                                <p class="mb-1">@item.UserId</p>
+                                <p class="mb-1">
+                                    @* @if (@item.ApplicationUser.FullName == null)
+                                    {
+                                        @item.UserId
+                                    }else{
+                                        @item.ApplicationUser.FullName
+                                    } *@
+                                    @item.UserId
+
+                                </p>
                             </td>
                             <td>
                                 <p class="mb-1">@item.ShippingAddress</p>
@@ -54,7 +63,6 @@
                             <td>
 
                                 <a class="btn btn-secondary btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminOrder" asp-action="details" asp-route-id="@item.OrderId">View</a>
-                                <a class="btn btn-danger btn-tone m-r-3 p-2" asp-area="admin" asp-controller="adminOrder" asp-action="delete" asp-route-id="@item.OrderId">Delete</a>
                             </td>
                         </tr>
                     }

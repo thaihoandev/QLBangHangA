@@ -110,12 +110,12 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Size</th>
-                                    <th scope="col">Color</th>
+                                    <th scope="col">ID sản phẩm</th>
+                                    <th scope="col">Màu</th>
+                                    <th scope="col">Cỡ</th>
 
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">trạng thái</th>
                                     <td scope="col">#</td>
 
                                 </tr>
@@ -128,10 +128,29 @@
                                         <tr>
                                             <td>@item.ProductId</td>
                                             <td>
-                                                <p class="mb-1">@item.ColorId</p>
+                                                
+                                                @foreach (var color in ViewBag.VariantValues)
+                                                {
+                                                    if(color.Id == item.ColorId)
+                                                    {
+                                                    <p class="mb-1">
+                                                            @color.Value
+                                                    </p>
+                                                    }
+                                                }
+                                               
                                             </td>
                                             <td>
-                                                <p class="mb-1">@item.SizeId</p>
+                                                <p class="mb-1">
+                                                    @foreach (var size in ViewBag.VariantValues)
+                                                    {
+                                                        if (size.Id == item.SizeId)
+                                                        {
+                                                        <p class="mb-1">
+                                                                @size.Value
+                                                        </p>
+                                                        }
+                                                    }</p>
                                             </td>
                                             <td>
                                                 @item.Quantity

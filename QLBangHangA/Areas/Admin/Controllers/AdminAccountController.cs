@@ -38,7 +38,7 @@ namespace QLBangHangA.Areas.Admin.Controllers
             var usersInAdminRole = await _userManager.GetUsersInRoleAsync(adminRole.Name);
             var users = usersInAdminRole.AsQueryable();
 
-            PagedList<ApplicationUser> models = new PagedList<ApplicationUser>(users, pageNumber, pageSize);
+            PagedList<ApplicationUser> models = new PagedList<ApplicationUser>(users.Where(x => x.Active == true), pageNumber, pageSize);
             ViewBag.CurrentPage = pageNumber;
 
             return View(models);
@@ -52,7 +52,7 @@ namespace QLBangHangA.Areas.Admin.Controllers
             var usersInAdminRole = await _userManager.GetUsersInRoleAsync(adminRole.Name);
             var users = usersInAdminRole.AsQueryable();
 
-            PagedList<ApplicationUser> models = new PagedList<ApplicationUser>(users, pageNumber, pageSize);
+            PagedList<ApplicationUser> models = new PagedList<ApplicationUser>(users.Where(x=>x.Active == true), pageNumber, pageSize);
             ViewBag.CurrentPage = pageNumber;
 
             return View(models);
@@ -66,14 +66,14 @@ namespace QLBangHangA.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.ApplicationUsers
+            var user = await _context.ApplicationUsers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(user);
         }
 
         // POST: Admin/AdminAccount/Delete/5
@@ -85,10 +85,11 @@ namespace QLBangHangA.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'DbEcommerceMarketContext.ApplicationUsers'  is null.");
             }
-            var product = await _context.ApplicationUsers.FindAsync(id);
-            if (product != null)
+            var user = await _context.ApplicationUsers.FindAsync(id);
+            if (user != null)
             {
-                _context.ApplicationUsers.Remove(product);
+                user.Active = false;
+                _context.ApplicationUsers.Update(user);
             }
 
             await _context.SaveChangesAsync();

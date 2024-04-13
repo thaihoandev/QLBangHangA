@@ -149,6 +149,7 @@ namespace QLBangHangA.Controllers
             order.OrderDate = DateTime.UtcNow;
             order.TransactStatusId = pending.TransactStatusId;
             order.TotalPrice = cart.Items.Sum(i => i.Price * i.Quantity);
+            order.Deleted = false;
             order.OrderDetails = cart.Items.Select(i => new OrderDetail
             {
                 ProductId = i.ProductId,

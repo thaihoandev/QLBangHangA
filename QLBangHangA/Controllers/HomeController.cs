@@ -34,9 +34,9 @@ namespace QLBangHangA.Controllers
                 ViewBag.Products = _context.Products.ToList();
 
                 ViewBag.ProductBestSellers = _context.Products.Where(p => p.BestSellers == true).ToList().Take(3);
-                ViewBag.ProductHomeFlag = _context.Products.Where(p => p.HomeFlag == true).ToList().Take(3);
+                ViewBag.ProductHomeFlag = _context.Products.Where(p => p.HomeFlag == true).OrderByDescending(x=>x.ProductId).ToList().Take(3);
                 ViewBag.ProductActive = _context.Products.Where(p => p.Active == true).ToList().Take(3);
-                ViewBag.ProductIns = _context.Products.Where(p => p.Active == true).ToList().Take(6);
+                ViewBag.ProductIns = _context.Products.Where(p => p.Active == true).OrderByDescending(x => x.ProductId).ToList().Take(6);
 
             }
             var products = await _productRepository.GetAllAsync();

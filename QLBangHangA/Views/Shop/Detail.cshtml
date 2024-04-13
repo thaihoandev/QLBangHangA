@@ -109,8 +109,26 @@
                                         <input type="text" value="1" name="quantity" >
                                     </div>
                                 </div>
+                                @if (ViewBag.ListProductVariant != null)
+                                {
+                                    int totalQuantity = 0;
+                                    @foreach (var itemSub in ViewBag.ListProductVariant)
+                                    {
+                                        @if (itemSub.ProductId == Model.ProductId)
+                                        {
+                                            totalQuantity += itemSub.Quantity;
+                                        }
+                                    }
+                                    @if (@totalQuantity > 0)
+                                    {
+                                        <button type="submit" class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ</button>
+                                    }else{
+                                    <button type="submit" class="cart-btn" disabled style="opacity:0.5"><span class="icon_bag_alt"></span> Thêm vào giỏ</button>
 
-                                <button type="submit" class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ</button>
+                                    }
+                                }
+                            
+                            
                             </div>
                             <div class="product__details__widget">
                                 <ul>
