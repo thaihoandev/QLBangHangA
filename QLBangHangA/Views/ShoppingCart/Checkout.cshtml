@@ -13,6 +13,7 @@
     List<CartItem> productOrder = ViewBag.CartOrder;
 
 }
+
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
@@ -66,9 +67,9 @@
                                 }
                                 else
                                 {
-                                <div>
+                                <li>
                                     <p>Không có sản phẩm!!</p>
-                                </div>
+                                </li>
                                 }
 
                             </ul>
@@ -79,23 +80,6 @@
                                 <li>Tổng <span>$ @priceTotal</span></li>
                             </ul>
                         </div>
-                       @*  <div class="checkout__order__widget">
-                            <label for="o-acc">
-                                Create an acount?
-                                <input type="checkbox" id="o-acc">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="check-payment">
-                                Cheque payment
-                                <input type="checkbox" id="check-payment">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label for="paypal">
-                                PayPal
-                                <input type="checkbox" id="paypal">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div> *@
                         <button type="submit" class="site-btn">Place oder</button>
                     </div>
                 </div>
