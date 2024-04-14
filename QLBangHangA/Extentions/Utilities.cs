@@ -163,9 +163,9 @@ namespace QLBangHangA.Extentions
             }
         }
 
-        public static string FormMail(string htmlEncoder)
+        /*public static string FormMail(string htmlEncoder)
         {
             var form = $" {htmlEncoder}";
-        }
+        }*/
     }
 }
