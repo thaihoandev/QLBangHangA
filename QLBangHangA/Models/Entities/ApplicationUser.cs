@@ -7,34 +7,15 @@ namespace QLBangHangA.Models.Entities
     {
         [Required]
         public string FullName { get; set; }
-        public string? Address { get; set; }
-        public string? Age { get; set; }
-
-        public DateTime? Birthday { get; set; }
-
-        public string? Avatar { get; set; }
-
         public string? Email { get; set; }
-
-        public string? Phone { get; set; }
-
-        public int? LocationId { get; set; }
-
-        public int? District { get; set; }
-
-        public int? Ward { get; set; }
-
-        public DateTime? CreateDate { get; set; }
-
-        public string? Password { get; set; }
-
-        public string? Salt { get; set; }
-
-        public DateTime? LastLogin { get; set; }
-
+        public string? Address { get; set; }
+        public int Age;
+        public string? PhoneNumber { get; set; }
+        public string? ImageUrl { get; set; }
         public bool Active { get; set; }
 
-        public virtual Location? Location { get; set; }
+        public DateTime? Birthday { get; internal set; }
+        public string? ProfilePicture { get; internal set; }
 
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 

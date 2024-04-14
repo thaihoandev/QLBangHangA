@@ -12,8 +12,8 @@ using QLBangHangA.Data_Access;
 namespace QLBangHangA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240411175645_init-table")]
-    partial class inittable
+    [Migration("20240414035508_init-user-3")]
+    partial class inituser3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -171,24 +171,12 @@ namespace QLBangHangA.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Age")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("District")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -201,11 +189,8 @@ namespace QLBangHangA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("LastLogin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("LocationId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -221,13 +206,7 @@ namespace QLBangHangA.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -236,7 +215,7 @@ namespace QLBangHangA.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Salt")
+                    b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -249,14 +228,7 @@ namespace QLBangHangA.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("Ward")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId")
-                        .IsUnique()
-                        .HasFilter("[LocationId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -362,6 +334,10 @@ namespace QLBangHangA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocationId"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("Levels")
                         .HasColumnType("int");
 
@@ -384,6 +360,8 @@ namespace QLBangHangA.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LocationId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Locations");
                 });
@@ -821,13 +799,15 @@ namespace QLBangHangA.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QLBangHangA.Models.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("QLBangHangA.Models.Entities.Location", b =>
                 {
-                    b.HasOne("QLBangHangA.Models.Entities.Location", "Location")
-                        .WithOne("ApplicationUser")
-                        .HasForeignKey("QLBangHangA.Models.Entities.ApplicationUser", "LocationId");
+                    b.HasOne("QLBangHangA.Models.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Location");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("QLBangHangA.Models.Entities.News", b =>
@@ -923,12 +903,6 @@ namespace QLBangHangA.Migrations
                     b.Navigation("News");
 
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("QLBangHangA.Models.Entities.Location", b =>
-                {
-                    b.Navigation("ApplicationUser")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("QLBangHangA.Models.Entities.Order", b =>
