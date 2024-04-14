@@ -90,6 +90,8 @@ namespace QLBangHangA.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            ViewBag.Products = _context.Products.ToList();
+
             return View(order);
         }
 

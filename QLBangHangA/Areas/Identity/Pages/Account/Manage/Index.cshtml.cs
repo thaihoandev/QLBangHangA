@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using QLBangHangA.Data_Access;
+using QLBangHangA.Extentions;
 using QLBangHangA.Models;
 using QLBangHangA.Models.Entities;
 
@@ -103,7 +104,7 @@ namespace QLBangHangA.Areas.Identity.Pages.Account.Manage
                 FullName = user.FullName,
                 Address = user.Address,
                 Birthday = user.Birthday,
-                ImgUrl = user.ProfilePicture
+                ImgUrl =  user.ProfilePicture
             };
         }
 
@@ -117,16 +118,6 @@ namespace QLBangHangA.Areas.Identity.Pages.Account.Manage
 
             await LoadAsync(user);
             return Page();
-        }
-
-        private async Task<string> SaveImage(IFormFile image)
-        {
-            var savePath = Path.Combine("wwwroot/images", image.FileName);
-            using (var fileStream = new FileStream(savePath, FileMode.Create))
-            {
-                await image.CopyToAsync(fileStream);
-            }
-            return "/images/" + image.FileName;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -168,14 +159,16 @@ namespace QLBangHangA.Areas.Identity.Pages.Account.Manage
             {
                 if (Input.ProfilePicture.ToString() != user.ProfilePicture)
                 {
-                    var imagePath = await SaveImage(Input.ProfilePicture);
-                    user.ProfilePicture = imagePath;
+                    
+                    var fThumb = Input.ProfilePicture;
+                    
+                    string extention = Path.GetExtension(fThumb.FileName);
+                    string image = Utilities.SEOUrl(user.UserName) + extention;
+                    user.ProfilePicture = await Utilities.UploadFile(fThumb, @"users", image.ToLower());
+                   
+                    if (string.IsNullOrEmpty(user.ProfilePicture)) user.ProfilePicture = "default.jpg";
                 }
             }
-
-
-
-
 
 
             // Lưu các thay đổi vào cơ sở dữ liệu

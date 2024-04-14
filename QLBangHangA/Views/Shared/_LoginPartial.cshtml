@@ -11,8 +11,13 @@
     {
             <a class="" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
     }
-    <a id="manage" class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-        <a id="logout" type="submit" class=" btn btn-link " asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Đăng xuất</a>
+    <a id="manage" class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><b>@UserManager.GetUserAsync(User).Result.FullName</b></a>
+    <form class="d-inline-block" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <button style="color: #666666; font-size: 12px; padding: 0;" type="submit" class="btn btn-link">
+            Đăng xuất
+        </button>
+    </form>
+    
 }
 else
 {

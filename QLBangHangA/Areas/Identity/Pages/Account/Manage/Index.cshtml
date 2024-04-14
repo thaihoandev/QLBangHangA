@@ -11,7 +11,7 @@
 <div class="card-body">
     <form asp-page-handler="Edit" method="POST" enctype="multipart/form-data">
         <div class="card mb-4">
-            <h5 class="card-header">Profile Details</h5>
+            <h5 class="card-header">Thông tin cá nhân</h5>
             <!-- Account -->
 
             <div class="card-body">
@@ -19,22 +19,22 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label asp-for="Input.FullName" class="control-label"></label>
+                            <label class="control-label">Họ và tên</label>
                             <input asp-for="Input.FullName" class="form-control" />
                             <span asp-validation-for="Input.FullName" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Input.Birthday" class="control-label"></label>
+                            <label class="control-label">Ngày sinh</label>
                             <input asp-for="Input.Birthday" class="form-control" type="date" />
                             <span asp-validation-for="Input.Birthday" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Input.Address" class="control-label"></label>
+                            <label class="control-label">Địa chỉ</label>
                             <input asp-for="Input.Address" class="form-control" />
                             <span asp-validation-for="Input.Address" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Input.PhoneNumber" class="control-label"></label>
+                            <label  class="control-label">Số điện thoại</label>
                             <input asp-for="Input.PhoneNumber" class="form-control" />
                             <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                         </div>
@@ -43,7 +43,7 @@
                     <div class="col-md-6 d-flex justify-content-center text-center">
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
                             <div>
-                                <img src="@Model.Input.ImgUrl"
+                                <img style="object-fit:cover" src="~/images/users/@Model.Input.ImgUrl"
                                      width="200"
                                      height="200"
                                      class=" rounded-circle"
@@ -68,7 +68,7 @@
             <hr class="my-0" />
             <div class="mt-2">
                 <div class="form-group">
-                    <div class="mt-2">
+                    <div class="m-2">
                         <button type="submit" class="btn btn-primary me-2">Save changes</button>
 
                     </div>

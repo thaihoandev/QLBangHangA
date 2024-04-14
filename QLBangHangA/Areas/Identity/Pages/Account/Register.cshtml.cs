@@ -10,8 +10,10 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,15 +36,16 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        
-
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public INotyfService _notifyService { get; }
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger
-            
+            ILogger<RegisterModel> logger,
+            IWebHostEnvironment webHostEnvironment,
+            INotyfService notyfService
             )
         {
             _roleManager = roleManager;
@@ -51,7 +54,9 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            
+            _webHostEnvironment = webHostEnvironment;
+            _notifyService = notyfService;
+
         }
 
         /// <summary>
@@ -146,6 +151,7 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
 
                 user.FullName = Input.FullName;
                 user.Active = true;
+                user.Email = Input.Email;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -172,8 +178,11 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-                    var emailBody = $"Please confirm your account by <a href='{callbackUrl}'>click here</a>.";
-                    SendMail.SendEmail(Input.Email, "Confirm your email",emailBody,true);
+                    string path = Path.Combine(_webHostEnvironment.WebRootPath, "EmailForm/EmailActive.cshtml");
+                    string htmlString = System.IO.File.ReadAllText(path);
+                    htmlString = htmlString.Replace("{{name}}", Input.FullName);
+                    htmlString = htmlString.Replace("{{link}}", callbackUrl);
+                    SendMail.SendEmail(Input.Email, "Confirm your email", htmlString, true);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -181,7 +190,9 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        /*await _signInManager.SignInAsync(user, isPersistent: false);*/
+                        _notifyService.Success("Đăng ký thành công. Vui lòng xác thực email!");
+                        returnUrl = Url.Content("~/Identity/Account/Login");
                         return LocalRedirect(returnUrl);
                     }
                 }

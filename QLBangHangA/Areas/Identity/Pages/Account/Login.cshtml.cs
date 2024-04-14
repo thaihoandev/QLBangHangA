@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using QLBangHangA.Models.Entities;
 using QLBangHangA.Models;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace QLBangHangA.Areas.Identity.Pages.Account
 {
@@ -25,12 +26,15 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly ILogger<LoginModel> _logger;
+        public INotyfService _notifyService { get; }
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<LoginModel> logger)
+            
+        public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<LoginModel> logger, INotyfService notyfService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _notifyService = notyfService;
         }
 
         /// <summary>
@@ -117,16 +121,30 @@ namespace QLBangHangA.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                
-                
+
+                var user = await _userManager.FindByNameAsync(Input.Email);
+                if (user.EmailConfirmed ==false)
+                {
+                    _notifyService.Error("Email không tồn tại hoặc chưa được xác thực!");
+                    return Page();
+                }
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                      
-
-                    
-                    _logger.LogInformation("User logged in.");
-                    
+                    if (user != null)
+                    {
+                        var isAdmin = _userManager.IsInRoleAsync(user, SD.Role_Admin);
+                        returnUrl = await isAdmin ? Url.Content("~/admin") : returnUrl;
+                        if (await isAdmin)
+                        { 
+                            _logger.LogInformation("Admin logged in.");
+                        }
+                        else
+                        {
+                            _logger.LogInformation("User logged in.");
+                        }
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

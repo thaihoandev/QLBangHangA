@@ -22,7 +22,13 @@
 
                     </div>
                 </div>
+                <div class="form-group mt-3 col-sm-12 ">
+                    <label class="col-form-label">Địa chỉ:</label>
+                    <div class="">
+                        <input type="text" class="form-control" disabled asp-for="ShippingAddress" />
 
+                    </div>
+                </div>
                 <div class="form-group mt-3 col-sm-6 ">
                     <label class="col-form-label">Ngày đặt:</label>
                     <div class="">
@@ -58,7 +64,13 @@
                                     {
                                         <tr>
                                             <td>
-                                                @item.ProductId
+                                                @foreach (var product in ViewBag.Products)
+                                                {
+                                                    if(item.ProductId == product.ProductId)
+                                                    {
+                                                        @product.ProductName
+                                                    }
+                                                }
                                             </td>
                                             <td>
                                                 <p class="mb-1">@item.Price</p>

@@ -23,13 +23,13 @@
                                 string urlItem = $"/blog/{item.Alias}--{item.PostId}.html";
                                 if (urlItem != url)
                                 {
-                                    <a href="@urlItem" class="blog__sidebar__recent__item ">
-                                        <div class="blog__sidebar__recent__item__pic">
-                                            <img style="width:70px; height:70px; object-fit:cover ;" src="~/images/news/@item.Thumb" alt="@item.Title">
+                                    <a href="@urlItem" class="row mb-4">
+                                        <div class="col-3">
+                                            <img class="rounded" style="width:70px; height:70px; object-fit:cover ;" src="~/images/blogs/@item.Thumb" alt="@item.Title">
                                         </div>
-                                        <div class="blog__sidebar__recent__item__text d-flex flex-column justify-content-between ">
+                                        <div class="col-9 d-flex flex-column justify-content-between ">
                                             <h6 class="">@item.Title</h6>
-                                            <span>@item.CreateDate.Value.ToShortDateString()</span>
+                                            <span class="" style="color:#111111 ">@item.CreateDate.ToString("dd-MM-yyyy")</span>
                                         </div>
                                     </a>
                                 }
@@ -88,13 +88,13 @@
                 if (urlItem != url)
                 {
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <div class="blog__item">
-                            <div class="blog__item__pic">
-                                <img style="height:240px; object-fit:cover" src="~/images/news/@item.Thumb" alt="">
+                        <div class="row">
+                            <div class="col-12">
+                                <img style="height:160px; width:100%; object-fit:cover" src="~/images/blogs/@item.Thumb" alt="">
                             </div>
-                            <div class="blog__item__text">
-                                <ul>
-                                    <li><i class="fa fa-calendar-o"></i>@item.CreateDate.Value.ToShortDateString()</li>
+                            <div class="col-12">
+                                <ul style="list-style:none">
+                                    <li><i class="fa fa-calendar-o"></i>@item.CreateDate.ToString("dd-MM-yyyy")</li>
                                     <li><i class="fa fa-comment-o"></i>@item.PostId</li>
                                 </ul>
                                 <h5><a href="@urlItem">@item.Title</a></h5>

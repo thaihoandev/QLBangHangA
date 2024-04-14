@@ -8,6 +8,7 @@ using QLBangHangA.Extentions;
 using QLBangHangA.Models;
 using QLBangHangA.Models.Entities;
 using QLBangHangA.Models.ViewModels;
+using System.Drawing;
 
 namespace QLBangHangA.Controllers
 {
@@ -60,9 +61,29 @@ namespace QLBangHangA.Controllers
         public IActionResult Detail(int id)
         {
 
-            ViewData["BangMau"] = new SelectList(_context.ProductVariantValues.Where(x => x.ProductAttribute.Name.ToLower() == "color").OrderByDescending(x => x.Value), "Id", "Value");
-            ViewData["BangSize"] = new SelectList(_context.ProductVariantValues.Where(x => x.ProductAttribute.Name.ToLower() == "size").OrderByDescending(x=>x.Value), "Id", "Value");
+            var colorList = _context.ProductVariantValues.Where(x => x.ProductAttribute.Name.ToLower() == "color").OrderByDescending(x => x.Value).ToList();
+            var sizeList = _context.ProductVariantValues.Where(x => x.ProductAttribute.Name.ToLower() == "size").OrderByDescending(x => x.Value).ToList();
+            List<ProductVariant>productVariant = _context.ProductVariants.Where(x => x.ProductId == id).ToList();
+
+            List<int> colorIds = productVariant
+                .Select(x => x.ColorId)
+                .Where(id => id.HasValue) // Lọc ra các giá trị không null
+                .Select(id => id.Value)   // Chuyển đổi từ Nullable<int> thành int
+                .ToList();
+            List<int> sizeIds = productVariant
+                .Select(x => x.SizeId)
+                .Where(id => id.HasValue) // Lọc ra các giá trị không null
+                .Select(id => id.Value)   // Chuyển đổi từ Nullable<int> thành int
+                .ToList();
+
+            List<ProductVariantValue> filteredColorList = colorList.Where(color => colorIds.Contains(color.Id)).ToList();
+            List<ProductVariantValue> filteredSizeList = sizeList.Where(size => sizeIds.Contains(size.Id)).ToList();
+
+            ViewData["BangMau"] = new SelectList(filteredColorList, "Id", "Value");
+            ViewData["BangSize"] = new SelectList(filteredSizeList, "Id", "Value");
+
             var productDetails = _context.Products.FirstOrDefault(x => x.ProductId == id);
+
             ViewBag.Category = _context.Categories.FirstOrDefault(x => x.CatId == productDetails.CatId).CatName;
             ViewBag.SameProduct = _context.Products.Where(x => x.CatId == productDetails.CatId).ToList().Take(4);
 
